@@ -109,3 +109,4 @@ spec:
 - The image does not start TLS; run behind an internal Service and use network policy for isolation.
 - Sample `ldif/seed.ldif` uses placeholder passwords; replace with cohort-specific LDIF (and update NiFi bind credentials) before deploying.
 - Base image: `debian:bookworm-slim` to avoid RHEL entitlements while keeping a minimal userspace.
+- No fixed `USER` in the image—OpenShift will inject an allowed UID from the project range (required for restricted-v2).

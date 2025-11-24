@@ -20,6 +20,4 @@ COPY ldif/seed.ldif /ldif/seed.ldif
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 3389
-
-USER 1001
 ENTRYPOINT ["/entrypoint.sh"]

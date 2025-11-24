@@ -9,9 +9,13 @@ LDAP_SEED_LDIF=${LDAP_SEED_LDIF:-/ldif/seed.ldif}
 LDAP_PORT=${LDAP_PORT:-3389}
 LDAP_LOG_LEVEL=${LDAP_LOG_LEVEL:-256}
 
-# Ensure writable directories for arbitrary UIDs
-mkdir -p "${LDAP_DATA_DIR}" /tmp /ldif
-chmod -R 777 "${LDAP_DATA_DIR}" /tmp /ldif
+# Ensure required directories exist (avoid chmod on read-only mounts)
+mkdir -p "${LDAP_DATA_DIR}" /tmp || true
+
+if [ ! -w "${LDAP_DATA_DIR}" ]; then
+  echo "ERROR: LDAP data dir ${LDAP_DATA_DIR} is not writable (SCC UID=${UID})"
+  exit 1
+fi
 
 # Generate root password hash
 ROOTPW_HASH=$(slappasswd -s "${LDAP_ADMIN_PASSWORD}")
@@ -23,6 +27,9 @@ include /etc/ldap/schema/core.schema
 include /etc/ldap/schema/cosine.schema
 include /etc/ldap/schema/inetorgperson.schema
 include /etc/ldap/schema/nis.schema
+
+modulepath /usr/lib/ldap
+moduleload back_mdb
 
 pidfile /tmp/slapd.pid
 argsfile /tmp/slapd.args
