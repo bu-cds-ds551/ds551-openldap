@@ -1,0 +1,35 @@
+dn: dc=ds551,dc=edu
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: DS551
+dc: ds551
+
+dn: ou=people,dc=ds551,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=ds551,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=teamsolution,ou=groups,dc=ds551,dc=edu
+objectClass: top
+objectClass: groupOfNames
+cn: teamsolution
+member: cn=admin,dc=ds551,dc=edu
+
+dn: cn=team01,ou=groups,dc=ds551,dc=edu
+objectClass: top
+objectClass: groupOfNames
+cn: team01
+member: cn=admin,dc=ds551,dc=edu
+
+dn: cn=admin,dc=ds551,dc=edu
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword: changeme
